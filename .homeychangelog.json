@@ -193,5 +193,8 @@
   },
   "1.4.2": {
     "en": "Maintenance release"
+  },
+  "1.4.3": {
+    "en": "Resolve issue which prevents correct pairing"
   }
 }
