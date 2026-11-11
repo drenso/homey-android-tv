@@ -83,7 +83,7 @@ class RemoteDriver extends Driver implements LoggerInterface {
 
       if (pairingResult) {
         pairingDevice.store.cert = await pairingClient.getCertificate();
-        await session.showView('add_device');
+        await session.showView('add_my_device');
       } else {
         await session.showView('discover');
       }
