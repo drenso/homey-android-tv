@@ -11,6 +11,7 @@ class PairingManager extends EventEmitter {
   private readonly service_name: string;
   private client: tls.TLSSocket | undefined;
   private pairingMessageManager: PairingMessageManager;
+  private forcedStop = false;
 
   constructor(
     host: string,
@@ -138,7 +139,7 @@ class PairingManager extends EventEmitter {
 
         this.client.on('close', hasError => {
           this.emit('log.debug', this.host + ' Pairing Connection closed', hasError);
-          if (hasError) {
+          if (this.forcedStop || hasError) {
             reject(false);
           } else {
             resolve(true);
@@ -152,6 +153,11 @@ class PairingManager extends EventEmitter {
         this.emit('log.error', 'PairingManager on data error', error);
       }
     });
+  }
+
+  stop(): void {
+    this.forcedStop = true;
+    this.client?.destroy();
   }
 
   private hexStringToBytes(q: string): number[] {

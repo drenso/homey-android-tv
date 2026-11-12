@@ -67,6 +67,7 @@ export class AndroidRemote extends EventEmitter {
 
       const paired = await this.pairingManager.start().catch(error => {
         this.emit('log.error', error);
+        return false;
       });
 
       if (!paired) {
@@ -136,6 +137,11 @@ export class AndroidRemote extends EventEmitter {
 
   stop(): void {
     this.remoteManager?.stop();
+  }
+
+  stopPairing(): void {
+    this.remoteManager?.stop();
+    this.pairingManager?.stop();
   }
 }
 

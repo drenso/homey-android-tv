@@ -248,4 +248,9 @@ export default class AndroidTVRemoteClient {
   public stop(): void {
     this.client.stop();
   }
+
+  public stopPairing(): void {
+    this.client.stop();
+    this.client.stopPairing();
+  }
 }

@@ -11,8 +11,17 @@ class RemoteDriver extends Driver implements LoggerInterface {
     let pairingDevice: DeviceType | null = null;
     let pairingClient: AndroidTVRemoteClient | null = null;
 
+    function stopPairing(): void {
+      pairingClient?.stopPairing();
+      pairingClient = null;
+    }
+
     session.setHandler('showView', async (view: string) => {
       this.log('Show view', view);
+
+      if (view !== 'authenticate') {
+        stopPairing();
+      }
 
       if (view === 'discover') {
         const discoveredDevices = this.getDiscoveredDevices();
@@ -95,6 +104,10 @@ class RemoteDriver extends Driver implements LoggerInterface {
 
       return pairingDevice;
     });
+
+    session.setHandler('disconnect', async () => {
+      stopPairing();
+    });
   }
 
   async onRepair(session: PairSession, repairingDevice: Device): Promise<void> {
@@ -159,7 +172,7 @@ class RemoteDriver extends Driver implements LoggerInterface {
     });
 
     session.setHandler('disconnect', async () => {
-      // Cleanup
+      pairingClient.stopPairing();
     });
   }
 
