@@ -196,5 +196,8 @@
   },
   "1.4.3": {
     "en": "Resolve issue which prevents correct pairing"
+  },
+  "1.4.4": {
+    "en": "Resolve pairing race condition"
   }
 }
